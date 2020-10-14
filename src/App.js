@@ -30,8 +30,6 @@ class App extends React.Component {
               ...snapShot.data()
             }
           })
-
-          console.log('State: ', this.state)
         })
       } else {
         this.setState({
