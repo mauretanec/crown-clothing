@@ -1,4 +1,6 @@
 import React from 'react'
+import { connect } from 'react-redux'
+import { compose } from 'redux'
 import { Link } from 'react-router-dom'
 import { auth } from '../../firebase/firebase.utils'
 import { ReactComponent as Logo } from '../../assets/crown.svg'
@@ -28,4 +30,8 @@ const Header = ({ currentUser }) => (
   </div>
 )
 
-export default Header
+export default compose(
+  connect(state => ({
+    currentUser: state.user.currentUser
+  }))
+)(Header)
