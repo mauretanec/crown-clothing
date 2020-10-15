@@ -1,12 +1,13 @@
 import React from 'react';
 import { connect } from 'react-redux'
 import { compose } from 'redux'
+import { Switch, Route, Redirect } from 'react-router-dom'
+
 import { setCurrentUser } from './redux/user/userActions'
 import HomePage from './pages/homepage/HomePage'
 import ShopPage from './pages/shop/ShopPage'
 import Header from './components/Header/Header'
-import SignInAndSignUp from './pages/signIn/SignInAndSignUpPage'
-import { Switch, Route } from 'react-router-dom'
+import SignInAndSignUpPage from './pages/signIn/SignInAndSignUpPage'
 import { auth, createUserProfileDocument } from './firebase/firebase.utils'
 import './App.css';
 
@@ -42,7 +43,14 @@ class App extends React.Component {
         <Switch>
           <Route exact path='/' component={HomePage} />
           <Route path='/shop' component={ShopPage} />
-          <Route path='/signIn' component={SignInAndSignUp} />
+          <Route
+            exact
+            path='/signIn'
+            render={() => this.props.currentUser
+              ? <Redirect to='/' />
+              : <SignInAndSignUpPage />
+            }
+          />
         </Switch>
       </div>
     );
@@ -50,7 +58,9 @@ class App extends React.Component {
 }
 
 export default compose(
-  connect(null, dispatch => ({
+  connect(({ user }) => ({
+    currentUser: user.currentUser
+  }), dispatch => ({
     setCurrentUser: user => dispatch(setCurrentUser(user))
   }))
 )(App)
