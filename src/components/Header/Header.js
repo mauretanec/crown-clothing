@@ -4,9 +4,11 @@ import { compose } from 'redux'
 import { Link } from 'react-router-dom'
 import { auth } from '../../firebase/firebase.utils'
 import { ReactComponent as Logo } from '../../assets/crown.svg'
+import CartIcon from '../CartIcon/CartIcon'
+import CartDropdown from '../CartDropdown/CartDropdown'
 import './Header.styles.scss'
 
-const Header = ({ currentUser }) => (
+const Header = ({ currentUser, hidden }) => (
   <div className='header'>
     <Link className='logo-container' to='/'>
       <Logo className='logo' />
@@ -26,12 +28,17 @@ const Header = ({ currentUser }) => (
           SIGN IN
         </Link>
       }
+      <CartIcon />
     </div>
+    {
+      hidden ? null : <CartDropdown />
+    }
   </div>
 )
 
 export default compose(
-  connect(state => ({
-    currentUser: state.user.currentUser
+  connect(({ user: { currentUser }, cart: { hidden }}) => ({
+    currentUser,
+    hidden
   }))
 )(Header)

@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { compose } from 'redux'
 import { Switch, Route, Redirect } from 'react-router-dom'
 
-import { setCurrentUser } from './redux/user/userActions'
+import { setCurrentUser } from './redux/user/actions'
 import HomePage from './pages/homepage/HomePage'
 import ShopPage from './pages/shop/ShopPage'
 import Header from './components/Header/Header'
