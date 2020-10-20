@@ -1,6 +1,7 @@
 import React from 'react'
 import { compose } from 'redux'
 import { connect } from 'react-redux'
+import { selectCartItems } from '../../redux/cart/selectors'
 import CustomButton from '../CustomButton/CustomButton';
 import CartItem from '../CartItem/CartItem'
 import './CartDropdown.styles.scss'
@@ -19,7 +20,7 @@ const CartDropdown = ({ cartItems }) => (
 )
 
 export default compose(
-  connect(({ cart: { cartItems } }) => ({
-    cartItems
+  connect(state => ({
+    cartItems: selectCartItems(state)
   }))
 )(CartDropdown)
