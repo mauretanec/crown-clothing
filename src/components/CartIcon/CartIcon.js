@@ -1,6 +1,7 @@
 import React from 'react'
 import { compose } from 'redux'
 import { connect } from 'react-redux'
+import { createStructuredSelector } from 'reselect'
 import { toggleCartVisibility } from '../../redux/cart/actions'
 import { selectCartItemsQuantity } from '../../redux/cart/selectors'
 import { ReactComponent as ShoppingIcon } from '../../assets/shopping-bag.svg'
@@ -14,8 +15,8 @@ const CartIcon = ({ toggleCartVisibility, itemCount }) => (
 )
 
 export default compose(
-  connect(state => ({
-    itemCount: selectCartItemsQuantity(state)
+  connect(createStructuredSelector({
+    itemCount: selectCartItemsQuantity
   }), {
     toggleCartVisibility
   })

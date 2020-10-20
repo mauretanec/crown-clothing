@@ -1,6 +1,9 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { compose } from 'redux'
+import { createStructuredSelector } from 'reselect'
+import { selectIsCartHidden } from '../../redux/cart/selectors'
+import { selectCurrentUser } from '../../redux/user/selectors'
 import { Link } from 'react-router-dom'
 import { auth } from '../../firebase/firebase.utils'
 import { ReactComponent as Logo } from '../../assets/crown.svg'
@@ -37,8 +40,8 @@ const Header = ({ currentUser, hidden }) => (
 )
 
 export default compose(
-  connect(({ user: { currentUser }, cart: { hidden }}) => ({
-    currentUser,
-    hidden
+  connect(createStructuredSelector({
+    currentUser: selectCurrentUser,
+    hidden: selectIsCartHidden
   }))
 )(Header)
