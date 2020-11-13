@@ -13,6 +13,8 @@ const config = {
   measurementId: "G-B04TTB01SS"
 }
 
+firebase.initializeApp(config)
+
 export const createUserProfileDocument = async (userAuth, additionalData) => {
   if (!userAuth) return
 
@@ -69,13 +71,20 @@ export const convertCollectionsSnapshotToMap = collections => {
   }, {})
 }
 
-firebase.initializeApp(config)
+export const getCurrentUser = () => {
+  return new Promise((resolve, reject) => {
+    const unsubscribe = auth.onAuthStateChanged(userAuth => {
+      unsubscribe()
+      resolve(userAuth)
+    }, reject)
+  })
+}
 
 export const auth = firebase.auth()
 export const firestore = firebase.firestore()
 
-const provider = new firebase.auth.GoogleAuthProvider()
-provider.setCustomParameters({ propmt: 'select_account' })
-export const signInWithGoogle = () => auth.signInWithPopup(provider)
+export const googleProvider = new firebase.auth.GoogleAuthProvider()
+googleProvider.setCustomParameters({ propmt: 'select_account' })
+export const signInWithGoogle = () => auth.signInWithPopup(googleProvider)
 
 export default firebase

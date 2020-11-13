@@ -4,7 +4,7 @@ import { compose } from 'redux'
 import { createStructuredSelector } from 'reselect'
 import { selectIsCartHidden } from '../../redux/cart/selectors'
 import { selectCurrentUser } from '../../redux/user/selectors'
-import { auth } from '../../firebase/firebase.utils'
+import { signOutStart } from '../../redux/user/actions'
 import { ReactComponent as Logo } from '../../assets/crown.svg'
 import CartIcon from '../CartIcon/CartIcon'
 import CartDropdown from '../CartDropdown/CartDropdown'
@@ -15,7 +15,7 @@ import {
   OptionLinkContainer
 } from './Header.styles'
 
-const Header = ({ currentUser, hidden }) => (
+const Header = ({ currentUser, hidden, signOutStart }) => (
   <HeaderContainer>
     <LogoContainer to='/'>
       <Logo className='logo' />
@@ -30,7 +30,7 @@ const Header = ({ currentUser, hidden }) => (
       {
         currentUser
         ? (
-          <OptionLinkContainer as='div' onClick={() => auth.signOut()}>
+          <OptionLinkContainer as='div' onClick={signOutStart}>
             SIGN OUT
           </OptionLinkContainer>
         ) : (
@@ -51,5 +51,7 @@ export default compose(
   connect(createStructuredSelector({
     currentUser: selectCurrentUser,
     hidden: selectIsCartHidden
+  }), dispatch => ({
+    signOutStart: () => dispatch(signOutStart())
   }))
 )(Header)
